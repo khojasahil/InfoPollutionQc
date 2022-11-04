@@ -1,0 +1,72 @@
+
+name	expression
+"Cible2020"	"CALCULATE(
+    sum('Inventaire des gaz à effet de serre du Québec'[Emissions])*.8,
+    FILTER(CalendrierUniversel,
+    CalendrierUniversel[Année] = 2019 ))"
+"Cible2030"	"CALCULATE(
+    sum('Inventaire des gaz à effet de serre du Québec'[Emissions])*.625,
+    FILTER(CalendrierUniversel,
+    CalendrierUniversel[Année] = 2019 ))"
+"Cible2050"	"CALCULATE(
+    sum('Inventaire des gaz à effet de serre du Québec'[Emissions])*.125,
+    FILTER(CalendrierUniversel,
+    CalendrierUniversel[Année] = 2019 ))"
+"TotalEmmisionQc2019"	"
+CALCULATE(
+    sum('Inventaire des gaz à effet de serre du Québec'[Emissions]),
+    FILTER(CalendrierUniversel,
+        CalendrierUniversel[Année] = 2019))"
+"EmmissionQcParPersonne2019"	"'Inventaire des gaz à effet de serre du Québec'[TotalEmmisionQc2019]/8485000*1000"
+"CibleEmissionParCapitaQc2020"	"DIVIDE( 'Inventaire des gaz à effet de serre du Québec'[Cible2020], 8576595)*1000"
+"CibleEmissionParCapitaQc2030"	"DIVIDE('Inventaire des gaz à effet de serre du Québec'[Cible2030], 9100000)*1000"
+"CibleEmissionParCapitaQc2050"	"DIVIDE('Inventaire des gaz à effet de serre du Québec'[Cible2050], 9750000)*1000"
+"%reduction2020"	"(DIVIDE('Inventaire des gaz à effet de serre du Québec'[CibleEmissionParCapitaQc2020], 'Inventaire des gaz à effet de serre du Québec'[EmmissionQcParPersonne2019])-1)*-1"
+"%reduction2030"	"(DIVIDE('Inventaire des gaz à effet de serre du Québec'[CibleEmissionParCapitaQc2030], 'Inventaire des gaz à effet de serre du Québec'[EmmissionQcParPersonne2019])-1)*-1"
+"%reduction2050"	"(DIVIDE('Inventaire des gaz à effet de serre du Québec'[CibleEmissionParCapitaQc2050], 'Inventaire des gaz à effet de serre du Québec'[EmmissionQcParPersonne2019])-1)*-1"
+"TotalEmmisionQc2020"	"
+CALCULATE(
+    sum('Inventaire des gaz à effet de serre du Québec'[Emissions]),
+    FILTER(CalendrierUniversel,
+        CalendrierUniversel[Année] = 2020))"
+"Texte"	"""Pour compenser les émissions de "" & 'Inventaire des gaz à effet de serre du Québec'[EmmissionQcParPersonne2019] & "" tonnes émis en une année, il faudra planter "" & 'Registre des émissions de gaz à effet de serre'[ArbreAPlanterParQuebecois] & "" épinette noire, et ça prendre ... 70 ANS pour capter le CO2 émis"""
+"EmissionAnneDernier"	"
+CALCULATE(
+    sum('Inventaire des gaz à effet de serre du Québec'[Emissions]),
+    PREVIOUSYEAR('Inventaire des gaz à effet de serre du Québec'[Annee]))"
+"EmissionTotal"	"sum('Inventaire des gaz à effet de serre du Québec'[Emissions])"
+"DifferenceEmission"	"[EmissionTotal] - [EmissionAnneDernier]"
+"%Croissance"	"
+DIVIDE(
+    [DifferenceEmission],
+    [EmissionAnneDernier])
+"
+"TotalEmmisionEntreprise2019"	"
+CALCULATE(
+    sum('Registre des émissions de gaz à effet de serre'[Emissions_totales]),
+    FILTER(CalendrierUniversel,
+        CalendrierUniversel[Année] = 2019))"
+"%TotalEmmisionEntrepriseVsTotal"	"
+DIVIDE('Registre des émissions de gaz à effet de serre'[TotalEmmisionEntreprise2019], ('Inventaire des gaz à effet de serre du Québec'[TotalEmmisionQc2019]*1000))"
+"ArbreAPlanterEntreprise"	"DIVIDE('Registre des émissions de gaz à effet de serre'[TotalEmmisionEntreprise2019], 38.5)"
+"ArbreAPlanterParQuebecois"	"DIVIDE('Inventaire des gaz à effet de serre du Québec'[EmmissionQcParPersonne2019], 7.14)"
+"GesParCapitaCanada"	"
+CALCULATE(
+    sum(PaysOcdeGes[Value]),
+    FILTER(
+        PaysOcde, PaysOcde[Country] = ""Canada""))"
+"GesParCapitaSuede"	"
+CALCULATE(
+    sum(PaysOcdeGes[Value]),
+    FILTER(
+        PaysOcde, PaysOcde[Country] = ""Sweden""))"
+"GesParCapitaNorway"	"
+CALCULATE(
+    sum(PaysOcdeGes[Value]),
+    FILTER(
+        PaysOcde, PaysOcde[Country] = ""Norway""))"
+"GesParCapitaEU"	"
+CALCULATE(
+    sum(PaysOcdeGes[Value]),
+    FILTER(
+        PaysOcde, PaysOcde[Cou] = ""EU27_2020""))"
