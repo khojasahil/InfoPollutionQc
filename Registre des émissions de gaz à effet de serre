@@ -1,0 +1,6 @@
+let
+  Source = Csv.Document(Web.Contents("https://www.donneesquebec.ca/recherche/dataset/fff64fdd-2b42-4b65-af59-16f89e3507b6/resource/b1553b23-fa2b-461e-b154-3f345f0d5b98/download/registre-ges.csv"), [Delimiter = ",", Columns = 15, Encoding = 65000]),
+  #"En-têtes promus" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+  #"Type de colonne changé" = Table.TransformColumnTypes(#"En-têtes promus", {{"Identifiant", Int64.Type}, {"Annee", Int64.Type}, {"NUM_SAGO", type text}, {"Entreprise", type text}, {"Etablissement", type text}, {"Adresse", type text}, {"Region", type text}, {"Mun", type text}, {"Longitude", type text}, {"Latitude", type text}, {"Emissions_totales", Int64.Type}, {"Emissions_bio_combustion", Int64.Type}, {"Emissions_bio_autres", Int64.Type}, {"Emissions_totales_sans_bio", Int64.Type}, {"Note", type text}}, "fr")
+in
+  #"Type de colonne changé"
