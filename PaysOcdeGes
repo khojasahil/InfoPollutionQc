@@ -1,0 +1,6 @@
+let
+  Source = Csv.Document(Web.Contents("https://raw.githubusercontent.com/khojasahil/OCDE/main/DataPolution"), [Delimiter = ",", Columns = 17, QuoteStyle = QuoteStyle.None]),
+  #"En-têtes promus" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+  #"Type de colonne changé" = Table.TransformColumnTypes(#"En-têtes promus", {{"COU", type text}, {"Country", type text}, {"POL", type text}, {"Pollutant", type text}, {"VAR", type text}, {"Variable", type text}, {"YEA", Int64.Type}, {"Year", Int64.Type}, {"Unit Code", type text}, {"Unit", type text}, {"PowerCode Code", Int64.Type}, {"PowerCode", type text}, {"Reference Period Code", type text}, {"Reference Period", type text}, {"Value", type text}, {"Flag Codes", type text}, {"Flags", type text}}, "fr")
+in
+  #"Type de colonne changé"
