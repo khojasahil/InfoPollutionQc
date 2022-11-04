@@ -1,0 +1,8 @@
+let
+  Source = Csv.Document(Web.Contents("https://www.donneesquebec.ca/recherche/dataset/08fbecd2-2532-408a-b153-ab00bad3ff31/resource/99fb6b0e-edac-455f-8c8a-c0bb4ef92255/download/inventaire-ges.csv"), [Delimiter = ",", Columns = 5, Encoding = 65000]),
+  #"En-têtes promus" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+  #"Type de colonne changé" = Table.TransformColumnTypes(#"En-têtes promus", {{"Annee", Int64.Type}, {"Secteur", type text}, {"Sous-secteur", type text}, {"Categorie", type text}, {"Emissions", type text}}, "fr"),
+  #"Valeur remplacée" = Table.ReplaceValue(#"Type de colonne changé", ".", ",", Replacer.ReplaceText, {"Emissions"}),
+  #"Type de colonne changé 1" = Table.TransformColumnTypes(#"Valeur remplacée", {{"Emissions", type number}})
+in
+  #"Type de colonne changé 1"
