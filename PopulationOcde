@@ -1,0 +1,6 @@
+let
+  Source = Csv.Document(Web.Contents("https://raw.githubusercontent.com/khojasahil/OCDE/main/PopulationOcde"), [Delimiter = ",", Columns = 11, QuoteStyle = QuoteStyle.None]),
+  #"En-têtes promus" = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+  #"Colonnes renommées" = Table.RenameColumns(#"En-têtes promus", {{"Sex", "Sex 1"}, {"Age", "Age 1"}, {"Time", "Time 1"}})
+in
+  #"Colonnes renommées"
